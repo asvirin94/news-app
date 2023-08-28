@@ -10,11 +10,11 @@ export const formatTimeAgo = (dateString: string) => {
         return `${Math.floor(secondPast/60)} минут назад`
     }
     if(secondPast <= 86400) {
-        return `${Math.floor(secondPast/3600)} ${Math.floor(secondPast/3600) === 1 
+        return `${Math.floor(secondPast/3600)} ${[1, 21].includes(Math.floor(secondPast/3600))
         ? 'час'
-        : Math.floor(secondPast/3600) < 21
-            ? 'часов'
-            : 'часа'
+        : [2, 3, 4, 22, 23, 24].includes(Math.floor(secondPast/3600))
+            ? 'часа'
+            : 'часов'
     } назад`
     }
     if(secondPast > 86400) {
