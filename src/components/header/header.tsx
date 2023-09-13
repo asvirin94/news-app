@@ -7,7 +7,7 @@ export default function Header (): JSX.Element {
 
     setTimeout(() => {
         setActualDate(new Date());
-    }, 60000)
+    }, 30000)
 
     return (
         <header className={styles.header}> 
