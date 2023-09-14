@@ -14,7 +14,7 @@ export default function MainPage(): JSX.Element {
   const [categories, setCategories] = useState(['All']);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const totalPages = 10;
-  const pageSize = 10;
+  const pageSize = 11;
 
   const fetchNews = async (currentPage: number) => {
     try {
@@ -80,7 +80,7 @@ export default function MainPage(): JSX.Element {
       currentPage={currentPage}
       />
 
-      {isLoading ? <Skeleton count={10} type='item'/> : <NewsList news={news} />}
+      {isLoading ? <Skeleton count={10} type='item'/> : <NewsList news={news.slice(1)} />}
       
       <Pagination 
       totalPages={totalPages} 
@@ -89,7 +89,6 @@ export default function MainPage(): JSX.Element {
       handlePageClick={handlePageClick}
       currentPage={currentPage}
       />
-
     </main>
   );
 }
