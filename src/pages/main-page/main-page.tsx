@@ -6,6 +6,8 @@ import NewsList from "../../components/news-list/news-list";
 import Skeleton from "../../components/skeleton/skeleton";
 import Pagination from "../../components/paginaton/pagination";
 import Categories from "../../components/categories/categories";
+import Search from "../../components/search/search";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export default function MainPage(): JSX.Element {
   const [news, setNews] = useState([]);
@@ -13,8 +15,11 @@ export default function MainPage(): JSX.Element {
   const [currentPage, setCurrentPage] = useState(1);
   const [categories, setCategories] = useState(['All']);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [keywords, setKeywords] = useState('')
   const totalPages = 10;
   const pageSize = 11;
+
+  const debounceKeywords = useDebounce(keywords, 1500);
 
   const fetchNews = async (currentPage: number) => {
     try {
@@ -22,7 +27,8 @@ export default function MainPage(): JSX.Element {
       const response = await getNews({
         page_number: currentPage,
         page_size: pageSize,
-        category: selectedCategory === 'All' ? undefined : selectedCategory
+        category: selectedCategory === 'All' ? undefined : selectedCategory,
+        keywords: debounceKeywords
       });
       setNews(response.news);
       setIsLoading(false);
@@ -42,7 +48,7 @@ export default function MainPage(): JSX.Element {
   
   useEffect(() => {
     fetchNews(currentPage);
-  }, [currentPage, selectedCategory]);
+  }, [currentPage, selectedCategory, debounceKeywords]);
 
   useEffect(() => {
     fetchCategories();
@@ -69,6 +75,8 @@ export default function MainPage(): JSX.Element {
   return (
     <main className={styles.main}>
       <Categories categories={categories} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
+
+      <Search keywords={keywords} setKeywords={setKeywords}/>
 
       {news.length > 0 && !isLoading ? <NewsBanner item={news[0]} /> : <Skeleton count={1} type='banner'/>}
 

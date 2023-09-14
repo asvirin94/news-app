@@ -21,3 +21,4 @@ export const formatTimeAgo = (dateString: string) => {
         return `${Math.floor(secondPast/86400)} дней назад`
     }
 }
+
