@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 
-type props = {
+export type paginationProps = {
   totalPages: number;
   currentPage: number;
   handleNextPageClick: () => void;
@@ -8,7 +8,7 @@ type props = {
   handlePageClick: (pageNumber: number) => void;
 };
 
-export default function Pagination({totalPages, currentPage, handleNextPageClick, handlePreviousPageClick, handlePageClick,}: props): JSX.Element {
+export default function Pagination({totalPages, currentPage, handleNextPageClick, handlePreviousPageClick, handlePageClick,}: paginationProps): JSX.Element {
   return (
     <div className={styles.pagination}>
       <button onClick={handlePreviousPageClick} className={styles.arrow}>
@@ -31,3 +31,4 @@ export default function Pagination({totalPages, currentPage, handleNextPageClick
     </div>
   );
 }
+

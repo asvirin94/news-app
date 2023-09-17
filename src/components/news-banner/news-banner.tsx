@@ -2,13 +2,14 @@ import { formatTimeAgo } from '../../utils';
 import Image from '../image/image';
 import styles from './styles.module.css';
 import { ItemType } from '../../types';
+import withSkeleton from '../../hocks/withSkeleton';
 
 
-type Props = {
+type BannerPropsType = {
     item: ItemType;
 }
 
-export default function NewsBanner ({item}: Props): JSX.Element {
+export default function NewsBanner ({item}: BannerPropsType): JSX.Element {
     return (
         <div className={styles.banner}>
             <Image image={item.image ? item.image : ''} />
@@ -17,3 +18,5 @@ export default function NewsBanner ({item}: Props): JSX.Element {
         </div>
     );
 }
+
+export const NewsBannerWithSkeleton = withSkeleton<BannerPropsType>(NewsBanner, 'banner', 1);

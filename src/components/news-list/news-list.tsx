@@ -1,12 +1,13 @@
 import { ItemType } from '../../types';
 import ListItem from '../list-item/list-item';
 import styles from './styles.module.css';
+import withSkeleton from '../../hocks/withSkeleton';
 
-type Props = {
+type NewsListPropsType = {
     news: ItemType[];
 }
 
-export default function NewsList ({news}: Props): JSX.Element {
+function NewsList ({news}: NewsListPropsType): JSX.Element {
     return (
         <ul className={styles.list}>
             {news.map(newsItem => 
@@ -15,3 +16,5 @@ export default function NewsList ({news}: Props): JSX.Element {
         </ul>
     );
 }
+
+export const NewsListWithSkeleton = withSkeleton(NewsList, 'item', 10);
