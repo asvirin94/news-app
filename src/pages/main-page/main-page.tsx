@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import NewsBanner from "../../components/news-banner/news-banner";
 import styles from "./styles.module.css";
 import { getCategories, getNews } from "../../api/apiNews";
-import NewsList from "../../components/news-list/news-list";
-import Skeleton from "../../components/skeleton/skeleton";
 import Pagination from "../../components/paginaton/pagination";
 import Categories from "../../components/categories/categories";
 import Search from "../../components/search/search";
 import { useDebounce } from "../../hooks/useDebounce";
+import { TOTAL_PAGES, PAGE_SIZE } from "../../consts";
+import NewsBanner from "../../components/news-banner/news-banner";
+import NewsList from "../../components/news-list/news-list";
+import Skeleton from "../../components/skeleton/skeleton";
 
 export default function MainPage(): JSX.Element {
   const [news, setNews] = useState([]);
@@ -16,8 +17,7 @@ export default function MainPage(): JSX.Element {
   const [categories, setCategories] = useState(['All']);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [keywords, setKeywords] = useState('')
-  const totalPages = 10;
-  const pageSize = 11;
+  
 
   const debounceKeywords = useDebounce(keywords, 1500);
 
@@ -26,7 +26,7 @@ export default function MainPage(): JSX.Element {
       setIsLoading(true);
       const response = await getNews({
         page_number: currentPage,
-        page_size: pageSize,
+        page_size: PAGE_SIZE,
         category: selectedCategory === 'All' ? undefined : selectedCategory,
         keywords: debounceKeywords
       });
@@ -55,7 +55,7 @@ export default function MainPage(): JSX.Element {
   }, [])
 
   const handleNextPageClick = () => {
-    if(currentPage < totalPages) {
+    if(currentPage < TOTAL_PAGES) {
       setCurrentPage(currentPage + 1)
     }
   }
@@ -81,17 +81,16 @@ export default function MainPage(): JSX.Element {
       {news.length > 0 && !isLoading ? <NewsBanner item={news[0]} /> : <Skeleton count={1} type='banner'/>}
 
       <Pagination 
-      totalPages={totalPages} 
+      totalPages={TOTAL_PAGES} 
       handleNextPageClick={handleNextPageClick} 
       handlePreviousPageClick={handlePreviousPageClick}
       handlePageClick={handlePageClick}
       currentPage={currentPage}
       />
 
-      {isLoading ? <Skeleton count={10} type='item'/> : <NewsList news={news.slice(1)} />}
-      
+{isLoading ? <Skeleton count={10} type='item'/> : <NewsList news={news.slice(1)} />}      
       <Pagination 
-      totalPages={totalPages} 
+      totalPages={TOTAL_PAGES} 
       handleNextPageClick={handleNextPageClick} 
       handlePreviousPageClick={handlePreviousPageClick}
       handlePageClick={handlePageClick}

@@ -11,7 +11,7 @@ type Props = {
 export default function NewsBanner ({item}: Props): JSX.Element {
     return (
         <div className={styles.banner}>
-            <Image image={item.image} />
+            <Image image={item.image ? item.image : ''} />
             <h3 className={styles.title}>{item.title}</h3>
             <p className={styles.date}>{formatTimeAgo(item.published)} by {item.author}</p>
         </div>
