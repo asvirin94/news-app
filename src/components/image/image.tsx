@@ -5,9 +5,13 @@ type Props = {
 }
 
 export default function Image ({image}: Props): JSX.Element {
-    return (
-        <div className={styles.wrapper}>
-            {image ? <img className={styles.image} src={image}></img> : null}
-        </div>
-    );
+    if(image !== 'None') {
+        return (
+            <div className={styles.wrapper}>
+                <img className={styles.image} src={image}></img>
+            </div>
+        );
+    } 
+
+    return <div className={styles.wrapper}></div>
 }
